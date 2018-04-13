@@ -116,6 +116,15 @@ func init() {
 	calcMem("Chi", func() {
 		parseChi = loadChi(parseAPIBrace)
 	})
+	calcMem("Denco", func() {
+		parseDenco = loadDenco(parseAPIColon)
+	})
+	calcMem("Gin", func() {
+		parseGin = loadGin(parseAPIColon)
+	})
+	calcMem("Echo", func() {
+		parseEcho = loadEcho(parseAPIColon)
+	})
 
 	println()
 }
