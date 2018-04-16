@@ -225,7 +225,7 @@ func BenchmarkEcho_ParamWrite(b *testing.B) {
 	benchRequest(b, router, r)
 }
 func BenchmarkGowww_ParamWrite(b *testing.B) {
-	router := loadGowwwSingle("GET", "/user/:name", bonHandleWrite)
+	router := loadGowwwSingle("GET", "/user/:name", gowwwHandleWrite)
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
 	benchRequest(b, router, r)
 }
