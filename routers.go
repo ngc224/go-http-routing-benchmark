@@ -19,6 +19,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-chi/chi"
+	gowww "github.com/gowww/router"
 	"github.com/labstack/echo"
 	"github.com/naoina/denco"
 	"github.com/nissy/bon"
@@ -282,6 +283,61 @@ func loadEchoSingle(method, path string, handle echo.HandlerFunc) http.Handler {
 	router := echo.New()
 	router.Add(method, path, handle)
 	return router
+}
+
+// Gowww
+func gowwwHandleWrite(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, gowww.Parameter(r, "name"))
+}
+
+func loadGowww(routes []route) http.Handler {
+	h := http.HandlerFunc(httpHandlerFunc)
+
+	if loadTestHandler {
+		h = http.HandlerFunc(httpHandlerFuncTest)
+	}
+
+	r := gowww.New()
+
+	for _, route := range routes {
+		switch route.method {
+		case "GET":
+			r.Get(route.path, h)
+		case "POST":
+			r.Post(route.path, h)
+		case "PUT":
+			r.Put(route.path, h)
+		case "PATCH":
+			r.Patch(route.path, h)
+		case "DELETE":
+			r.Delete(route.path, h)
+		default:
+			panic("Unknow HTTP method: " + route.method)
+		}
+	}
+
+	return r
+}
+
+func loadGowwwSingle(method, path string, h http.HandlerFunc) http.Handler {
+	r := gowww.New()
+
+	switch method {
+	case "GET":
+		r.Get(path, h)
+	case "POST":
+		r.Post(path, h)
+	case "PUT":
+		r.Put(path, h)
+	case "PATCH":
+		r.Patch(path, h)
+	case "DELETE":
+		r.Delete(path, h)
+	default:
+		panic("Unknown HTTP method: " + method)
+	}
+
+	return r
 }
 
 // Usage notice

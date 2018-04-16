@@ -17,6 +17,7 @@ var (
 		{"Denco", loadDenco},
 		{"Gin", loadGin},
 		{"Echo", loadEcho},
+		//{"Gowww", loadGowww},
 	}
 
 	// all APIs

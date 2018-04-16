@@ -175,6 +175,7 @@ var (
 	staticDenco http.Handler
 	staticGin   http.Handler
 	staticEcho  http.Handler
+	staticGowww http.Handler
 )
 
 func init() {
@@ -195,6 +196,9 @@ func init() {
 	calcMem("Echo", func() {
 		staticEcho = loadEcho(staticRoutes)
 	})
+	calcMem("Gowww", func() {
+		staticGowww = loadGowww(staticRoutes)
+	})
 
 	println()
 }
@@ -214,4 +218,7 @@ func BenchmarkGin_StaticAll(b *testing.B) {
 }
 func BenchmarkEcho_StaticAll(b *testing.B) {
 	benchRoutes(b, staticEcho, staticRoutes)
+}
+func BenchmarkGowww_StaticAll(b *testing.B) {
+	benchRoutes(b, staticGowww, staticRoutes)
 }

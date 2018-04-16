@@ -542,6 +542,7 @@ var (
 	githubDenco http.Handler
 	githubGin   http.Handler
 	githubEcho  http.Handler
+	githubGowww http.Handler
 )
 
 func init() {
@@ -561,6 +562,9 @@ func init() {
 	})
 	calcMem("Echo", func() {
 		githubEcho = loadEcho(githubAPIColon)
+	})
+	calcMem("Gowww", func() {
+		githubGowww = loadGowww(githubAPIColon)
 	})
 
 	println()
@@ -587,6 +591,10 @@ func BenchmarkEcho_GithubStatic(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/user/repos", nil)
 	benchRequest(b, githubEcho, req)
 }
+func BenchmarkGowww_GithubStatic(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/user/repos", nil)
+	benchRequest(b, githubGowww, req)
+}
 
 // Param
 func BenchmarkBon_GithubParam(b *testing.B) {
@@ -609,6 +617,10 @@ func BenchmarkEcho_GithubParam(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/repos/julienschmidt/httprouter/stargazers", nil)
 	benchRequest(b, githubEcho, req)
 }
+func BenchmarkGowww_GithubParam(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/repos/julienschmidt/httprouter/stargazers", nil)
+	benchRequest(b, githubGowww, req)
+}
 
 // All routes
 func BenchmarkBon_GithubAll(b *testing.B) {
@@ -625,4 +637,7 @@ func BenchmarkGin_GithubAll(b *testing.B) {
 }
 func BenchmarkEcho_GithubAll(b *testing.B) {
 	benchRoutes(b, githubEcho, githubAPIColon)
+}
+func BenchmarkGowww_GithubAll(b *testing.B) {
+	benchRoutes(b, githubGowww, githubAPIColon)
 }

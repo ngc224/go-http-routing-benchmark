@@ -105,6 +105,7 @@ var (
 	parseDenco http.Handler
 	parseGin   http.Handler
 	parseEcho  http.Handler
+	parseGowww http.Handler
 )
 
 func init() {
@@ -124,6 +125,9 @@ func init() {
 	})
 	calcMem("Echo", func() {
 		parseEcho = loadEcho(parseAPIColon)
+	})
+	calcMem("Gowww", func() {
+		parseGowww = loadGowww(parseAPIColon)
 	})
 
 	println()
@@ -150,6 +154,10 @@ func BenchmarkEcho_ParseStatic(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/1/users", nil)
 	benchRequest(b, parseEcho, req)
 }
+func BenchmarkGowww_ParseStatic(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/1/users", nil)
+	benchRequest(b, parseGowww, req)
+}
 
 // One Param
 func BenchmarkBon_ParseParam(b *testing.B) {
@@ -171,6 +179,10 @@ func BenchmarkGin_ParseParam(b *testing.B) {
 func BenchmarkEcho_ParseParam(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/1/classes/go", nil)
 	benchRequest(b, parseEcho, req)
+}
+func BenchmarkGowww_ParseParam(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/1/classes/go", nil)
+	benchRequest(b, parseGowww, req)
 }
 
 // Two Params
@@ -194,6 +206,10 @@ func BenchmarkEcho_Parse2Params(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/1/classes/go/123456789", nil)
 	benchRequest(b, parseEcho, req)
 }
+func BenchmarkGowww_Parse2Params(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/1/classes/go/123456789", nil)
+	benchRequest(b, parseGowww, req)
+}
 
 // All Routes
 func BenchmarkBon_ParseAll(b *testing.B) {
@@ -210,4 +226,7 @@ func BenchmarkGin_ParseAll(b *testing.B) {
 }
 func BenchmarkEcho_ParseAll(b *testing.B) {
 	benchRoutes(b, parseEcho, parseAPIColon)
+}
+func BenchmarkGowww_ParseAll(b *testing.B) {
+	benchRoutes(b, parseGowww, parseAPIColon)
 }

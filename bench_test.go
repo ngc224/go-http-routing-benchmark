@@ -120,6 +120,11 @@ func BenchmarkEcho_Param(b *testing.B) {
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
 	benchRequest(b, router, r)
 }
+func BenchmarkGowww_Param(b *testing.B) {
+	router := loadGowwwSingle("GET", "/user/:name", httpHandlerFunc)
+	r, _ := http.NewRequest("GET", "/user/gordon", nil)
+	benchRequest(b, router, r)
+}
 
 // Route with 5 Params (no write)
 const fiveColon = "/:a/:b/:c/:d/:e"
@@ -148,6 +153,11 @@ func BenchmarkGin_Param5(b *testing.B) {
 }
 func BenchmarkEcho_Param5(b *testing.B) {
 	router := loadEchoSingle("GET", fiveColon, echoHandlerFunc)
+	r, _ := http.NewRequest("GET", fiveRoute, nil)
+	benchRequest(b, router, r)
+}
+func BenchmarkGowww_Param5(b *testing.B) {
+	router := loadGowwwSingle("GET", fiveColon, httpHandlerFunc)
 	r, _ := http.NewRequest("GET", fiveRoute, nil)
 	benchRequest(b, router, r)
 }
@@ -182,6 +192,11 @@ func BenchmarkEcho_Param20(b *testing.B) {
 	r, _ := http.NewRequest("GET", twentyRoute, nil)
 	benchRequest(b, router, r)
 }
+func BenchmarkGowww_Param20(b *testing.B) {
+	router := loadGowwwSingle("GET", twentyColon, httpHandlerFunc)
+	r, _ := http.NewRequest("GET", twentyRoute, nil)
+	benchRequest(b, router, r)
+}
 
 // Route with Param and write
 func BenchmarkBon_ParamWrite(b *testing.B) {
@@ -206,6 +221,11 @@ func BenchmarkGin_ParamWrite(b *testing.B) {
 }
 func BenchmarkEcho_ParamWrite(b *testing.B) {
 	router := loadEchoSingle("GET", "/user/:name", echoHandleWrite)
+	r, _ := http.NewRequest("GET", "/user/gordon", nil)
+	benchRequest(b, router, r)
+}
+func BenchmarkGowww_ParamWrite(b *testing.B) {
+	router := loadGowwwSingle("GET", "/user/:name", bonHandleWrite)
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
 	benchRequest(b, router, r)
 }
